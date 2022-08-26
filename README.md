@@ -1,6 +1,5 @@
 # AndroidUI
 A light-weight library for building UI in declarative way based on android view system.
-* **Declarative:** 
 
 ### Main layouts
 
