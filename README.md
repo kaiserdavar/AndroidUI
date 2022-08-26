@@ -1,6 +1,15 @@
 # AndroidUI
 A light-weight library for building UI in declarative way based on android view system.
 
+## Pros
+* **Declarative syntax**
+* **No XML file and no parsing**
+* **Full dynamic view creation**
+* **Managing view states by LiveData**
+* **Brand-new drawable creation**
+* **Better performance**
+* **Simple to read and maintain**
+
 ## Main layouts
 
 * **VStack:** Vertical LinearLayout
