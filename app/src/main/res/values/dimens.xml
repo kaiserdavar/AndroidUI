@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="toolbar_height">66dp</dimen>
+    <dimen name="toolbar_height_no_shadow">56dp</dimen>
+    <dimen name="toolbar_title_size">18sp</dimen>
+
+    <integer name="navigation_transition_duration">250</integer>
+
+</resources>
