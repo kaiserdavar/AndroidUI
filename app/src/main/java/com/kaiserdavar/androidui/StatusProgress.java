@@ -3,6 +3,7 @@ package com.kaiserdavar.androidui;
 import android.content.Context;
 import android.os.Handler;
 import android.view.Gravity;
+import android.view.View;
 
 import androidx.annotation.ColorRes;
 import androidx.annotation.DrawableRes;
@@ -63,7 +64,6 @@ public class StatusProgress extends BaseVStack<StatusProgress, LinearLayoutCompa
                 .paddingHorizontal(24)
                 .paddingVertical(8);
 
-        spacing(16);
         gravity(Gravity.CENTER);
         child(mProgressVue);
         child(mTextVue);
@@ -279,6 +279,13 @@ public class StatusProgress extends BaseVStack<StatusProgress, LinearLayoutCompa
         mTextVue.visibility(text != null || imageRes != 0);
         mProgressVue.visibility(status == STATUS_LOADING);
         mRetryButton.visibility(status == STATUS_ERROR).text(retryText);
+
+        int visibleViews = 0;
+        for (Vue vue : children) {
+            if (vue.view().getVisibility() == View.VISIBLE)
+                visibleViews++;
+        }
+        spacing(visibleViews > 1 ? 16 : 0);
     }
 
 }

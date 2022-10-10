@@ -1166,6 +1166,11 @@ public abstract class BaseVue<T, M extends View> implements Vue {
     }
 
     @Override
+    public Vue getChild(int index) {
+        return children.get(index);
+    }
+
+    @Override
     public boolean hasChild() {
         return children != null && !children.isEmpty();
     }

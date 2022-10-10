@@ -10,6 +10,7 @@ public interface Vue {
     View createView();
     Vue findChild(int id);
     Vue findChildDeep(int id);
+    Vue getChild(int index);
     ViewGroup.MarginLayoutParams getMarginLp();
     ConstraintLayout.LayoutParams getConstraintLp();
     boolean hasChild();
