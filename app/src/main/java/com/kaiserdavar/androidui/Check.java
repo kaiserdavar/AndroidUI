@@ -9,10 +9,10 @@ import androidx.appcompat.widget.AppCompatCheckBox;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.MutableLiveData;
 
-public class Check extends com.kaiserdavar.androidui.BaseText<Check, AppCompatCheckBox>
+public class Check extends BaseText<Check, AppCompatCheckBox>
         implements CompoundButton.OnCheckedChangeListener{
 
-    private com.kaiserdavar.androidui.OnToggleListener onToggleListener;
+    private OnToggleListener onToggleListener;
     private MutableLiveData<Boolean> toggleLiveData;
     private boolean isChanging;
 
@@ -62,7 +62,7 @@ public class Check extends com.kaiserdavar.androidui.BaseText<Check, AppCompatCh
         return this;
     }
 
-    public Check onToggle(com.kaiserdavar.androidui.OnToggleListener listener) {
+    public Check onToggle(OnToggleListener listener) {
         this.onToggleListener = listener;
         return this;
     }

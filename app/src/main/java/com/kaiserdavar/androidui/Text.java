@@ -1,14 +1,12 @@
 package com.kaiserdavar.androidui;
 
 import android.content.Context;
-
 import androidx.annotation.StringRes;
 import androidx.appcompat.widget.AppCompatTextView;
+import com.kaiserdavar.androidui.style.VueStyle;
 
-import com.kaiserdavar.androidui.style.TextStyle;
-
-public class Text extends com.kaiserdavar.androidui.BaseText<Text, AppCompatTextView> {
-    public static TextStyle defaultStyle;
+public class Text extends BaseText<Text, AppCompatTextView> {
+    public static VueStyle defaultStyle;
 
     public static Text create(Context context) {
         return new Text(context);

@@ -15,9 +15,9 @@ import androidx.core.content.res.ResourcesCompat;
 import com.google.android.material.textfield.TextInputLayout;
 import com.kaiserdavar.androidui.style.ColorSelector;
 
-public class MaterialInput extends com.kaiserdavar.androidui.BaseVue<MaterialInput, TextInputLayout> {
+public class MaterialInput extends BaseVue<MaterialInput, TextInputLayout> {
 
-    private com.kaiserdavar.androidui.MaterialInputEditText inputEditText;
+    private MaterialInputEditText inputEditText;
 
     public static MaterialInput create(Context context) {
         return new MaterialInput(context);
@@ -161,13 +161,13 @@ public class MaterialInput extends com.kaiserdavar.androidui.BaseVue<MaterialInp
         return t;
     }
 
-    public MaterialInput child(com.kaiserdavar.androidui.MaterialInputEditText inputEditText) {
+    public MaterialInput child(MaterialInputEditText inputEditText) {
         addChild(inputEditText);
         return this;
     }
 
     public MaterialInput child(OnInputChildListener listener) {
-        com.kaiserdavar.androidui.MaterialInputEditText inputEditText = newInputEditText();
+        MaterialInputEditText inputEditText = newInputEditText();
         listener.onInputChild(inputEditText);
         addChild(inputEditText);
         return this;
@@ -179,12 +179,12 @@ public class MaterialInput extends com.kaiserdavar.androidui.BaseVue<MaterialInp
         view.addView(inputEditText.view(), params);
     }
 
-    private com.kaiserdavar.androidui.MaterialInputEditText newInputEditText() {
-        return com.kaiserdavar.androidui.MaterialInputEditText.create(view.getContext()).fullWidth();
+    private MaterialInputEditText newInputEditText() {
+        return MaterialInputEditText.create(view.getContext()).fullWidth();
     }
 
     public interface OnInputChildListener {
-        void onInputChild(com.kaiserdavar.androidui.MaterialInputEditText inputEditText);
+        void onInputChild(MaterialInputEditText inputEditText);
     }
 
 }

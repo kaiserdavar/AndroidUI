@@ -144,22 +144,26 @@ public class Toolbar extends BaseVue<Toolbar, androidx.appcompat.widget.Toolbar>
         return this;
     }
 
-    public Toolbar showBack() {
-        view.setNavigationIcon(R.drawable.ic_arrow_back_black_24dp);
-        view.setNavigationOnClickListener(v -> {
-            if (view.getContext() instanceof Activity) {
-                ((Activity) view.getContext()).onBackPressed();
-            }
-        });
-        return this;
-    }
-
     public Toolbar action(@StringRes int titleRes, @DrawableRes int iconRes,
                            MenuItem.OnMenuItemClickListener onMenuItemClickListener) {
         MenuItem menu = view.getMenu().add(titleRes);
         menu.setIcon(iconRes);
         menu.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
         menu.setOnMenuItemClickListener(onMenuItemClickListener);
+        return this;
+    }
+
+    @Deprecated
+    public Toolbar showBack() {
+        return backOnNavigation();
+    }
+
+    public Toolbar backOnNavigation() {
+        view.setNavigationOnClickListener(v -> {
+            if (view.getContext() instanceof Activity) {
+                ((Activity) view.getContext()).onBackPressed();
+            }
+        });
         return this;
     }
 

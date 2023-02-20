@@ -38,7 +38,7 @@ public abstract class BaseVStack<T, M extends LinearLayoutCompat> extends BaseSt
     @Override
     protected void onAddChild(Vue child) {
         LinearLayoutCompat.LayoutParams params =
-                new LinearLayoutCompat.LayoutParams(child.getMarginLp());
+                new LinearLayoutCompat.LayoutParams(child.marginLp());
         if (child.getWeight() != 0)
             params.weight = child.getWeight();
         if (mSpacing != null && view.getChildCount() > 0)

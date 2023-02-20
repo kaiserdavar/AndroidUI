@@ -16,6 +16,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.kaiserdavar.androidui.style.TextStyle;
+import com.kaiserdavar.androidui.style.VueStyle;
 import com.kaiserdavar.androidui.util.OnEditTextChangeListener;
 
 import java.util.ArrayList;
@@ -24,7 +25,7 @@ import java.util.List;
 
 public class SuggestionInputText extends com.kaiserdavar.androidui.BaseText<SuggestionInputText, AutoCompleteTextView> {
 
-    private TextStyle listTextStyle;
+    private VueStyle listTextStyle;
     private Filter filter;
     private boolean isChanging;
 
@@ -172,9 +173,9 @@ public class SuggestionInputText extends com.kaiserdavar.androidui.BaseText<Sugg
         private List<String> allItems;
         private List<String> items;
         private Filter filter;
-        private TextStyle textStyle;
+        private VueStyle textStyle;
 
-        public ItemAdapter(List<String> items, Filter filter, TextStyle textStyle) {
+        public ItemAdapter(List<String> items, Filter filter, VueStyle textStyle) {
             this.allItems = items;
             this.filter = filter;
             this.textStyle = textStyle;

@@ -13,15 +13,17 @@ import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
 
 import com.kaiserdavar.androidui.stack.CustomZStack;
+import com.kaiserdavar.androidui.style.ActionButtonStyle;
 import com.kaiserdavar.androidui.style.ColorSelector;
 import com.kaiserdavar.androidui.style.TextStyle;
+import com.kaiserdavar.androidui.style.VueStyle;
 
 public class ActionButton extends CustomZStack<ActionButton> {
-    public static TextStyle defaultStyle;
+    public static VueStyle defaultStyle;
 
-    private com.kaiserdavar.androidui.Text mTextVue;
-    private com.kaiserdavar.androidui.Image mImageVue;
-    private com.kaiserdavar.androidui.Progress mProgressVue;
+    private Text mTextVue;
+    private Image mImageVue;
+    private Progress mProgressVue;
     private boolean isLoading;
 
     public static ActionButton create(Context context) {
@@ -36,22 +38,40 @@ public class ActionButton extends CustomZStack<ActionButton> {
     protected void onInit() {
         super.onInit();
         gravity(Gravity.CENTER);
-        mImageVue = com.kaiserdavar.androidui.Image.create(context());
-        mTextVue = com.kaiserdavar.androidui.Text.create(context());
-        child(mImageVue);
-        child(mTextVue);
-        addProgress(30);
-        if (defaultStyle != null)
-            mTextVue.style(defaultStyle);
-    }
-
-    private void addProgress(int size) {
-        removeChild(mProgressVue);
+        mImageVue = Image.create(context());
+        mTextVue = Text.create(context());
         mProgressVue = com.kaiserdavar.androidui.Progress.create(context())
-                .size(size, size)
+                .size(30, 30)
                 .progressColor(Color.WHITE)
                 .gone();
+        child(mImageVue);
+        child(mTextVue);
         child(mProgressVue);
+        if (defaultStyle != null) {
+            style(defaultStyle);
+            if (defaultStyle instanceof ActionButtonStyle) {
+                ActionButtonStyle actionButtonStyle = (ActionButtonStyle) defaultStyle;
+                if (actionButtonStyle.titleStyle != null)
+                    mTextVue.style(actionButtonStyle.titleStyle);
+                if (actionButtonStyle.progressStyle != null)
+                    mProgressVue.style(actionButtonStyle.progressStyle);
+                if (actionButtonStyle.imageStyle != null)
+                    mImageVue.style(actionButtonStyle.imageStyle);
+            }
+        }
+    }
+
+    public ActionButton textVue(OnObjectListener<Text> listener) {
+        listener.onObject(mTextVue);
+        return this;
+    }
+    public ActionButton imageVue(OnObjectListener<Image> listener) {
+        listener.onObject(mImageVue);
+        return this;
+    }
+    public ActionButton progressVue(OnObjectListener<Progress> listener) {
+        listener.onObject(mProgressVue);
+        return this;
     }
 
     public ActionButton text(LiveData<CharSequence> liveData, LifecycleOwner lifecycleOwner) {
@@ -147,7 +167,7 @@ public class ActionButton extends CustomZStack<ActionButton> {
     }
 
     public ActionButton progressSize(int size) {
-        addProgress(size);
+        mProgressVue.size(size, size);
         return this;
     }
 

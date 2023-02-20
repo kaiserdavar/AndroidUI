@@ -28,6 +28,7 @@ import java.util.List;
 
 public class Shaper {
 
+    private Context mContext;
     private int mBackgroundColor;
     private int mShadowColor;
     private int mStrokeColor;
@@ -57,6 +58,11 @@ public class Shaper {
     private final List<Shaper> mLayers;
 
     public Shaper() {
+        this(null);
+    }
+    public Shaper(Context context) {
+        if (context != null)
+            mContext = context.getApplicationContext();
         this.mBackgroundColor = Color.WHITE;
         this.mGradientOrientation = GradientDrawable.Orientation.LEFT_RIGHT;
         this.mGradientType = GradientDrawable.LINEAR_GRADIENT;
@@ -184,6 +190,19 @@ public class Shaper {
             view.setLayerType(View.LAYER_TYPE_SOFTWARE, mShapeDrawable.getPaint());
     }
 
+    private void setBackgroundColor(int color) {
+        mBackgroundColorStateList = null;
+        mBackgroundColor = color;
+    }
+    private void setStrokeColor(int color) {
+        mStrokeColorStateList = null;
+        mStrokeColor = color;
+    }
+    private void setRippleColor(int color) {
+        mRippleColorStateList = null;
+        mRippleColor = color;
+    }
+
     public int getShadowRadius() {
         return mShadowRadius;
     }
@@ -191,12 +210,17 @@ public class Shaper {
     // Builder methods
 
     public Shaper backgroundColor(@ColorInt int color) {
-        mBackgroundColor = color;
+        setBackgroundColor(color);
         return this;
     }
 
     public Shaper backgroundColor(Context context, @ColorRes int color) {
-        mBackgroundColor = ContextCompat.getColor(context, color);
+        setBackgroundColor(ContextCompat.getColor(context, color));
+        return this;
+    }
+
+    public Shaper backgroundColorRes(@ColorRes int resId) {
+        setBackgroundColor(ContextCompat.getColor(mContext, resId));
         return this;
     }
 
@@ -211,8 +235,7 @@ public class Shaper {
     }
 
     public Shaper noBackground() {
-        mBackgroundColorStateList = null;
-        mBackgroundColor = Color.TRANSPARENT;
+        setBackgroundColor(Color.TRANSPARENT);
         return this;
     }
 
@@ -232,6 +255,11 @@ public class Shaper {
         return this;
     }
 
+    public Shaper shadowColorRes(@ColorRes int resId) {
+        mShadowColor = ContextCompat.getColor(mContext, resId);
+        return this;
+    }
+
     public Shaper shadowOffset(int dxDp, int dyDp) {
         mShadowOffsetX = px(dxDp);
         mShadowOffsetY = px(dyDp);
@@ -239,12 +267,17 @@ public class Shaper {
     }
 
     public Shaper strokeColor(@ColorInt int color) {
-        mStrokeColor = color;
+        setStrokeColor(color);
         return this;
     }
 
     public Shaper strokeColor(Context context, @ColorRes int color) {
-        mStrokeColor = ContextCompat.getColor(context, color);
+        setStrokeColor(ContextCompat.getColor(context, color));
+        return this;
+    }
+
+    public Shaper strokeColorRes(@ColorRes int resId) {
+        setStrokeColor(ContextCompat.getColor(mContext, resId));
         return this;
     }
 
@@ -258,8 +291,8 @@ public class Shaper {
         return this;
     }
 
-    public Shaper strokeWidth(int widthDp) {
-        mStrokeWidth = px(widthDp);
+    public Shaper strokeWidth(int dp) {
+        mStrokeWidth = px(dp);
         return this;
     }
     public Shaper strokeDashWidth(int dp) {
@@ -313,12 +346,17 @@ public class Shaper {
 
     public Shaper rippleColor(@ColorInt int color) {
         this.withRippleEffect = true;
-        mRippleColor = color;
+        setRippleColor(color);
         return this;
     }
 
     public Shaper rippleColor(Context context, @ColorRes int color) {
-        mRippleColor = ContextCompat.getColor(context, color);
+        setRippleColor(ContextCompat.getColor(context, color));
+        return this;
+    }
+
+    public Shaper rippleColorRes(@ColorRes int resId) {
+        setRippleColor(ContextCompat.getColor(mContext, resId));
         return this;
     }
 
@@ -369,52 +407,52 @@ public class Shaper {
         return this;
     }
 
-    public Shaper cornerTop(int cornerRadiusDp) {
-        int cornerValue = px(cornerRadiusDp);
+    public Shaper cornerTop(int dp) {
+        int cornerValue = px(dp);
         mCorners[0] = cornerValue;
         mCorners[1] = cornerValue;
         return this;
     }
-    public Shaper cornerBottom(int cornerRadiusDp) {
-        int cornerValue = px(cornerRadiusDp);
+    public Shaper cornerBottom(int dp) {
+        int cornerValue = px(dp);
         mCorners[2] = cornerValue;
         mCorners[3] = cornerValue;
         return this;
     }
-    public Shaper cornerLeft(int cornerRadiusDp) {
-        int cornerValue = px(cornerRadiusDp);
+    public Shaper cornerLeft(int dp) {
+        int cornerValue = px(dp);
         mCorners[0] = cornerValue;
         mCorners[3] = cornerValue;
         return this;
     }
-    public Shaper cornerRight(int cornerRadiusDp) {
-        int cornerValue = px(cornerRadiusDp);
+    public Shaper cornerRight(int dp) {
+        int cornerValue = px(dp);
         mCorners[1] = cornerValue;
         mCorners[2] = cornerValue;
         return this;
     }
-    public Shaper cornerTopLeft(int cornerRadiusDp) {
-        int cornerValue = px(cornerRadiusDp);
+    public Shaper cornerTopLeft(int dp) {
+        int cornerValue = px(dp);
         mCorners[0] = cornerValue;
         return this;
     }
-    public Shaper cornerTopRight(int cornerRadiusDp) {
-        int cornerValue = px(cornerRadiusDp);
+    public Shaper cornerTopRight(int dp) {
+        int cornerValue = px(dp);
         mCorners[1] = cornerValue;
         return this;
     }
-    public Shaper cornerBottomRight(int cornerRadiusDp) {
-        int cornerValue = px(cornerRadiusDp);
+    public Shaper cornerBottomRight(int dp) {
+        int cornerValue = px(dp);
         mCorners[2] = cornerValue;
         return this;
     }
-    public Shaper cornerBottomLeft(int cornerRadiusDp) {
-        int cornerValue = px(cornerRadiusDp);
+    public Shaper cornerBottomLeft(int dp) {
+        int cornerValue = px(dp);
         mCorners[3] = cornerValue;
         return this;
     }
-    public Shaper corner(int cornerRadiusDp) {
-        int c = px(cornerRadiusDp);
+    public Shaper corner(int dp) {
+        int c = px(dp);
         mCorners[0] = c;
         mCorners[1] = c;
         mCorners[2] = c;

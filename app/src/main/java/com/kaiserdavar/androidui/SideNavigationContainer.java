@@ -33,7 +33,7 @@ public class SideNavigationContainer extends BaseStack<SideNavigationContainer, 
     @Override
     protected void onAddChild(com.kaiserdavar.androidui.Vue child) {
         if (child.view() instanceof NavigationView) {
-            DrawerLayout.LayoutParams params = new DrawerLayout.LayoutParams(child.getMarginLp());
+            DrawerLayout.LayoutParams params = new DrawerLayout.LayoutParams(child.marginLp());
             params.gravity = child.getGravity() != -1 ? child.getGravity() : mGravity;
             view.addView(child.view(), params);
         } else {

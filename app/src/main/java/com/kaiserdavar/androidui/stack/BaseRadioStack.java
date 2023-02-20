@@ -23,7 +23,7 @@ public class BaseRadioStack<T, M extends RadioGroup> extends BaseStack<T, M> {
 
     @Override
     protected void onAddChild(Vue child) {
-        RadioGroup.LayoutParams params = new RadioGroup.LayoutParams(child.getMarginLp());
+        RadioGroup.LayoutParams params = new RadioGroup.LayoutParams(child.marginLp());
         if (child.getWeight() != 0)
             params.weight = child.getWeight();
         params.gravity = child.getGravity();

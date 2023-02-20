@@ -26,7 +26,7 @@ public class BottomAppBarStack extends BaseStack<BottomAppBarStack, BottomAppBar
 
     @Override
     protected void onAddChild(Vue child) {
-        BottomAppBar.LayoutParams params = new BottomAppBar.LayoutParams(child.getMarginLp());
+        BottomAppBar.LayoutParams params = new BottomAppBar.LayoutParams(child.marginLp());
         params.gravity = child.getGravity() != -1 ? child.getGravity() : mGravity;
         view.addView(child.view(), params);
     }

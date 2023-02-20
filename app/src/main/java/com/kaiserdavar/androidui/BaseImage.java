@@ -1,10 +1,12 @@
 package com.kaiserdavar.androidui;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -14,6 +16,7 @@ import androidx.annotation.DrawableRes;
 import androidx.annotation.Nullable;
 import androidx.core.graphics.drawable.RoundedBitmapDrawable;
 import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory;
+import androidx.core.widget.ImageViewCompat;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
 
@@ -30,6 +33,7 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.load.resource.gif.GifDrawable;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
+import com.kaiserdavar.androidui.style.ColorSelector;
 
 import java.io.File;
 
@@ -160,6 +164,20 @@ public class BaseImage<T, M extends ImageView> extends BaseVue<T, M> {
     public T imageUrl(String url) {
         RequestBuilder<Drawable> requestBuilder = Glide.with(view).load(url);
         loadImage(requestBuilder);
+        return t;
+    }
+
+    public T imageTint(PorterDuff.Mode tintMode, ColorSelector selector) {
+        ImageViewCompat.setImageTintMode(view(), tintMode);
+        ImageViewCompat.setImageTintList(view(), selector.getColor());
+        return t;
+    }
+    public T imageTint(ColorSelector selector) {
+        ImageViewCompat.setImageTintList(view(), selector.getColor());
+        return t;
+    }
+    public T imageTint(ColorStateList colorStateList) {
+        ImageViewCompat.setImageTintList(view(), colorStateList);
         return t;
     }
 

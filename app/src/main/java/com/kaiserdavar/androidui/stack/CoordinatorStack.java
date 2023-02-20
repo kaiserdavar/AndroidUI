@@ -27,7 +27,7 @@ public class CoordinatorStack extends BaseStack<CoordinatorStack, CoordinatorLay
 
     @Override
     protected void onAddChild(Vue child) {
-        CoordinatorLayout.LayoutParams params = new CoordinatorLayout.LayoutParams(child.getMarginLp());
+        CoordinatorLayout.LayoutParams params = new CoordinatorLayout.LayoutParams(child.marginLp());
         params.gravity = child.getGravity() != -1 ? child.getGravity() : mGravity;
         view.addView(child.view(), params);
     }

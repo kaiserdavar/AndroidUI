@@ -66,7 +66,7 @@ public abstract class BaseStack<T, M extends ViewGroup> extends BaseVue<T, M> {
     }
 
     protected void onAddChild(Vue child) {
-        view.addView(child.view(), child.getMarginLp());
+        view.addView(child.view(), child.marginLp());
     }
 
     public T clear() {

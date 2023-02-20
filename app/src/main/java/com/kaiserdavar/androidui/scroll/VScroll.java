@@ -6,9 +6,13 @@ import android.view.View;
 import android.widget.ScrollView;
 
 import com.kaiserdavar.androidui.BaseVue;
+import com.kaiserdavar.androidui.OnShaperListener;
 import com.kaiserdavar.androidui.Vue;
+import com.kaiserdavar.androidui.util.Shaper;
 
-public class VScroll extends BaseVue<VScroll, ScrollView> {
+import java.util.ArrayList;
+
+public class VScroll extends BaseScroll<VScroll, ScrollView> {
 
     public static VScroll create(Context context) {
         return new VScroll(context);
@@ -28,39 +32,57 @@ public class VScroll extends BaseVue<VScroll, ScrollView> {
         return v;
     }
 
-    public VScroll child(View child) {
-        view.removeAllViews();
-        view.addView(child);
-        return this;
-    }
 
-    public VScroll child(Vue child) {
-        view.removeAllViews();
-        view.addView(child.createView());
-        return this;
-    }
-
-    public VScroll clear() {
-        view.removeAllViews();
-        return this;
-    }
-
+    @Override
     public VScroll fill() {
         view.setFillViewport(true);
         return this;
     }
+    @Override
     public VScroll smoothScrolling(boolean enabled) {
         view.setSmoothScrollingEnabled(enabled);
         return this;
     }
-    public VScroll nestedScrolling(boolean enabled) {
-        view.setNestedScrollingEnabled(enabled);
+    @Override
+    public VScroll scroll(int value) {
+        view.setScrollY(value);
         return this;
     }
+    @Override
+    public VScroll showBar() {
+        view.setVerticalScrollBarEnabled(true);
+        return this;
+    }
+    @Override
+    public VScroll hideBar() {
+        view.setVerticalScrollBarEnabled(false);
+        return this;
+    }
+    @Override
+    public VScroll thumbShape(OnShaperListener listener) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            Shaper shaper = new Shaper(context());
+            listener.onShaper(shaper);
+            view.setVerticalScrollbarThumbDrawable(shaper.generate());
+        }
+        return this;
+    }
+    @Override
+    public VScroll trackShape(OnShaperListener listener) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            Shaper shaper = new Shaper(context());
+            listener.onShaper(shaper);
+            view.setVerticalScrollbarTrackDrawable(shaper.generate());
+        }
+        return this;
+    }
+
+
     public VScroll onScroll(View.OnScrollChangeListener listener) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             view.setOnScrollChangeListener(listener);
         }
         return this;
     }
+
 }

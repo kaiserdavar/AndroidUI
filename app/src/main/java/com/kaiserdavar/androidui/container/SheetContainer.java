@@ -10,9 +10,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
+import androidx.annotation.ColorInt;
+import androidx.annotation.ColorRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.LifecycleOwner;
 
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
@@ -151,6 +154,10 @@ public class SheetContainer extends BottomSheetDialogFragment {
 
     public LifecycleOwner vlo() {
         return getViewLifecycleOwner();
+    }
+
+    public @ColorInt int getColor(@ColorRes int resId) {
+        return ContextCompat.getColor(requireContext(), resId);
     }
 
     protected int px(float dp) {

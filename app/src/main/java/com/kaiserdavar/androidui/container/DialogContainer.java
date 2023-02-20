@@ -9,9 +9,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.ColorInt;
+import androidx.annotation.ColorRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.LifecycleOwner;
 
@@ -42,8 +45,8 @@ public class DialogContainer extends DialogFragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         Vue vue = onContent();
-        rootWidth = vue.getMarginLp().width;
-        rootHeight = vue.getMarginLp().height;
+        rootWidth = vue.marginLp().width;
+        rootHeight = vue.marginLp().height;
         return vue.createView();
     }
 
@@ -115,6 +118,10 @@ public class DialogContainer extends DialogFragment {
 
     public LifecycleOwner vlo() {
         return getViewLifecycleOwner();
+    }
+
+    public @ColorInt int getColor(@ColorRes int resId) {
+        return ContextCompat.getColor(requireContext(), resId);
     }
 
     protected int px(float dp) {

@@ -35,7 +35,7 @@ public class SideNavigation extends BaseStack<SideNavigation, NavigationView> {
 
     @Override
     protected void onAddChild(Vue child) {
-        NavigationView.LayoutParams params = new NavigationView.LayoutParams(child.getMarginLp());
+        NavigationView.LayoutParams params = new NavigationView.LayoutParams(child.marginLp());
         params.gravity = child.getGravity() != -1 ? child.getGravity() : mGravity;
         view.addView(child.view(), params);
     }

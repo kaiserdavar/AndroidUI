@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Handler;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.ColorRes;
 import androidx.annotation.DrawableRes;
@@ -13,6 +14,7 @@ import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
 
 import com.kaiserdavar.androidui.stack.BaseVStack;
+import com.kaiserdavar.androidui.stack.ZStack;
 import com.kaiserdavar.androidui.style.StatusProgressStyle;
 import com.kaiserdavar.androidui.style.VueStyle;
 
@@ -26,7 +28,8 @@ public class StatusProgress extends BaseVStack<StatusProgress, LinearLayoutCompa
     public static final int STATUS_DONE = 1;
 
     private Text mTextVue;
-    private com.kaiserdavar.androidui.Progress mProgressVue;
+    private ZStack mProgressStack;
+    private Progress mProgressVue;
     private Button mRetryButton;
 
     private int mStatus;
@@ -55,22 +58,32 @@ public class StatusProgress extends BaseVStack<StatusProgress, LinearLayoutCompa
     public StatusProgress(Context context) {
         super(context);
         mHandler = new Handler();
-        mTextVue = Text.create(context)
+        mProgressStack = ZStack.create(context());
+        Vue customProgress = onGetProgressVue();
+        if (customProgress != null) {
+            mProgressStack.child(customProgress);
+        } else {
+            mProgressVue = Progress.create(context());
+            mProgressStack.child(mProgressVue);
+        }
+        mTextVue = Text.create(context())
                 .textAlign(Gravity.CENTER)
                 .drawablePadding(16);
-        mProgressVue = com.kaiserdavar.androidui.Progress.create(context).visible();
-        mRetryButton = Button.create(context)
+        mRetryButton = Button.create(context())
                 .text(retryText)
                 .paddingHorizontal(24)
                 .paddingVertical(8);
-
         gravity(Gravity.CENTER);
-        child(mProgressVue);
+        child(mProgressStack);
         child(mTextVue);
         child(mRetryButton);
         if (defaultStyle != null)
             style(defaultStyle);
         setStatus(mStatus);
+    }
+
+    protected Vue onGetProgressVue() {
+        return null;
     }
 
     @Override
@@ -89,6 +102,12 @@ public class StatusProgress extends BaseVStack<StatusProgress, LinearLayoutCompa
             imageGravity = style.imageGravity;
             mStatus = style.status;
         }
+        return this;
+    }
+
+    public StatusProgress progressVue(Vue vue) {
+        mProgressVue = null;
+        mProgressStack.clear().child(vue);
         return this;
     }
 
@@ -184,7 +203,8 @@ public class StatusProgress extends BaseVStack<StatusProgress, LinearLayoutCompa
     }
 
     public StatusProgress progressColor(int color) {
-        mProgressVue.progressColor(color);
+        if (mProgressVue != null)
+            mProgressVue.progressColor(color);
         return this;
     }
 
@@ -227,7 +247,7 @@ public class StatusProgress extends BaseVStack<StatusProgress, LinearLayoutCompa
     private void setStatusLoadingDelay() {
         setStatus(STATUS_DONE);
         mHandler.postDelayed(() -> {
-            if (mStatus == STATUS_LOADING && !mProgressVue.isVisible())
+            if (mStatus == STATUS_LOADING && !mProgressStack.isVisible())
                 setStatus(STATUS_LOADING);
         }, loadingDelay);
     }
@@ -277,15 +297,17 @@ public class StatusProgress extends BaseVStack<StatusProgress, LinearLayoutCompa
 
         visibility(status != STATUS_DONE);
         mTextVue.visibility(text != null || imageRes != 0);
-        mProgressVue.visibility(status == STATUS_LOADING);
+        mProgressStack.visibility(status == STATUS_LOADING);
         mRetryButton.visibility(status == STATUS_ERROR).text(retryText);
 
-        int visibleViews = 0;
+        int i = 0;
         for (Vue vue : children) {
-            if (vue.view().getVisibility() == View.VISIBLE)
-                visibleViews++;
+            if (vue.view().getVisibility() == View.VISIBLE) {
+                int m = i > 0 ? 16 : 0;
+                ((ViewGroup.MarginLayoutParams) vue.view().getLayoutParams()).topMargin = px(m);
+                i++;
+            }
         }
-        spacing(visibleViews > 1 ? 16 : 0);
     }
 
 }

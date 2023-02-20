@@ -8,9 +8,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.ColorInt;
+import androidx.annotation.ColorRes;
 import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -270,6 +273,10 @@ public class Container extends Fragment {
 
     public LifecycleOwner vlo() {
         return getViewLifecycleOwner();
+    }
+
+    public @ColorInt int getColor(@ColorRes int resId) {
+        return ContextCompat.getColor(requireContext(), resId);
     }
 
     protected int px(float dp) {

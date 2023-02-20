@@ -3,7 +3,7 @@ package com.kaiserdavar.androidui;
 import android.content.Context;
 import android.view.SurfaceView;
 
-public class Surface extends com.kaiserdavar.androidui.BaseVue<Surface, SurfaceView> {
+public class Surface extends BaseVue<Surface, SurfaceView> {
     public Surface(SurfaceView view) {
         super(view);
     }

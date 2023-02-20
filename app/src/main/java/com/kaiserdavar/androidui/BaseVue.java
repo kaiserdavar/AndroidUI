@@ -90,12 +90,12 @@ public abstract class BaseVue<T, M extends View> implements Vue {
     }
 
     @Override
-    public ViewGroup.MarginLayoutParams getMarginLp() {
+    public ViewGroup.MarginLayoutParams marginLp() {
         return marginLp;
     }
 
     @Override
-    public ConstraintLayout.LayoutParams getConstraintLp() {
+    public ConstraintLayout.LayoutParams constraintLp() {
         return constraintLp;
     }
 
@@ -119,6 +119,26 @@ public abstract class BaseVue<T, M extends View> implements Vue {
                 background(vueStyle.backgroundRes);
             if (vueStyle.background != null)
                 vueStyle.background.setAsBackgroundOf(view);
+            if (vueStyle.margin != null) {
+                if (vueStyle.margin[0] != null)
+                    marginStart(vueStyle.margin[0]);
+                if (vueStyle.margin[1] != null)
+                    marginTop(vueStyle.margin[1]);
+                if (vueStyle.margin[2] != null)
+                    marginEnd(vueStyle.margin[2]);
+                if (vueStyle.margin[3] != null)
+                    marginBottom(vueStyle.margin[3]);
+            }
+            if (vueStyle.padding != null) {
+                if (vueStyle.padding[0] != null)
+                    paddingStart(vueStyle.padding[0]);
+                if (vueStyle.padding[1] != null)
+                    paddingTop(vueStyle.padding[1]);
+                if (vueStyle.padding[2] != null)
+                    paddingEnd(vueStyle.padding[2]);
+                if (vueStyle.padding[3] != null)
+                    paddingBottom(vueStyle.padding[3]);
+            }
         }
         return t;
     }
@@ -526,8 +546,8 @@ public abstract class BaseVue<T, M extends View> implements Vue {
 
 
     public T background(LiveData<Shaper> liveData, LifecycleOwner lifecycleOwner) {
-        liveData.observe(lifecycleOwner, shadow -> {
-            shadow.setAsBackgroundOf(view);
+        liveData.observe(lifecycleOwner, shaper -> {
+            shaper.setAsBackgroundOf(view);
         });
         return t;
     }
@@ -535,8 +555,8 @@ public abstract class BaseVue<T, M extends View> implements Vue {
         shaper.setAsBackgroundOf(view);
         return t;
     }
-    public T background(com.kaiserdavar.androidui.OnShaperListener listener) {
-        Shaper shaper = new Shaper();
+    public T background(OnShaperListener listener) {
+        Shaper shaper = new Shaper(context());
         listener.onShaper(shaper);
         shaper.setAsBackgroundOf(view);
         return t;
@@ -608,9 +628,9 @@ public abstract class BaseVue<T, M extends View> implements Vue {
         }
         return t;
     }
-    public T foreground(com.kaiserdavar.androidui.OnShaperListener listener) {
+    public T foreground(OnShaperListener listener) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            Shaper shaper = new Shaper();
+            Shaper shaper = new Shaper(context());
             listener.onShaper(shaper);
             view.setForeground(shaper.generate());
         }
@@ -730,22 +750,6 @@ public abstract class BaseVue<T, M extends View> implements Vue {
         return t;
     }
 
-    public T visibility(LiveData<Boolean> liveData, LifecycleOwner lifecycleOwner) {
-        liveData.observe(lifecycleOwner, this::visibility);
-        return t;
-    }
-    public T visibility(boolean visible) {
-        view.setVisibility(visible ? View.VISIBLE : View.GONE);
-        return t;
-    }
-    public T invisibility(LiveData<Boolean> liveData, LifecycleOwner lifecycleOwner) {
-        liveData.observe(lifecycleOwner, this::invisibility);
-        return t;
-    }
-    public T invisibility(boolean visible) {
-        view.setVisibility(visible ? View.VISIBLE : View.INVISIBLE);
-        return t;
-    }
     public T visible() {
         view.setVisibility(View.VISIBLE);
         return t;
@@ -758,6 +762,39 @@ public abstract class BaseVue<T, M extends View> implements Vue {
         view.setVisibility(View.GONE);
         return t;
     }
+    public T visibility(boolean visible) {
+        view.setVisibility(visible ? View.VISIBLE : View.GONE);
+        return t;
+    }
+    public T visible(boolean visible) {
+        view.setVisibility(visible ? View.VISIBLE : View.GONE);
+        return t;
+    }
+    public T invisible(boolean invisible) {
+        view.setVisibility(invisible ? View.INVISIBLE : View.VISIBLE);
+        return t;
+    }
+    public T gone(boolean gone) {
+        view.setVisibility(gone ? View.GONE : View.VISIBLE);
+        return t;
+    }
+    public T visibility(LiveData<Boolean> liveData, LifecycleOwner lifecycleOwner) {
+        liveData.observe(lifecycleOwner, this::visible);
+        return t;
+    }
+    public T visible(LiveData<Boolean> liveData, LifecycleOwner lifecycleOwner) {
+        liveData.observe(lifecycleOwner, this::visible);
+        return t;
+    }
+    public T invisible(LiveData<Boolean> liveData, LifecycleOwner lifecycleOwner) {
+        liveData.observe(lifecycleOwner, this::invisible);
+        return t;
+    }
+    public T gone(LiveData<Boolean> liveData, LifecycleOwner lifecycleOwner) {
+        liveData.observe(lifecycleOwner, this::gone);
+        return t;
+    }
+
     public boolean isVisible() {
         return view.getVisibility() == View.VISIBLE;
     }
@@ -830,6 +867,10 @@ public abstract class BaseVue<T, M extends View> implements Vue {
     }
     public T ltr() {
         view.setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
+        return t;
+    }
+    public T direction(int direction) {
+        view.setLayoutDirection(direction);
         return t;
     }
 
@@ -916,12 +957,7 @@ public abstract class BaseVue<T, M extends View> implements Vue {
         if (toHeightDp >= 0) {
             toHeight = px(toHeightDp);
         } else if (toHeightDp == ViewGroup.LayoutParams.WRAP_CONTENT) {
-            int widthSpec;
-            if (marginLp.width >= 0)
-                widthSpec = View.MeasureSpec.makeMeasureSpec(marginLp.width, View.MeasureSpec.AT_MOST);
-            else
-                widthSpec = marginLp.width;
-
+            int widthSpec = View.MeasureSpec.makeMeasureSpec(view.getWidth(), View.MeasureSpec.AT_MOST);
             view.measure(widthSpec, toHeightDp);
             toHeight = view.getMeasuredHeight();
         } else if (toHeightDp == ViewGroup.LayoutParams.MATCH_PARENT) {
@@ -1048,7 +1084,6 @@ public abstract class BaseVue<T, M extends View> implements Vue {
         return d;
     }
 
-
     public T fitSystemWindow(boolean fit) {
         view.setFitsSystemWindows(fit);
         return t;
@@ -1062,7 +1097,6 @@ public abstract class BaseVue<T, M extends View> implements Vue {
         view.setClipToOutline(clipToOutline);
         return t;
     }
-
 
     public T id(int id) {
         view.setId(id);
@@ -1110,7 +1144,7 @@ public abstract class BaseVue<T, M extends View> implements Vue {
         view.setOnClickListener(v -> listener.onClick());
         return t;
     }
-    public T onLongClick(com.kaiserdavar.androidui.OnLongClickListener listener) {
+    public T onLongClick(OnLongClickListener listener) {
         view.setOnLongClickListener(v -> listener.onLongClick());
         return t;
     }
@@ -1119,7 +1153,7 @@ public abstract class BaseVue<T, M extends View> implements Vue {
         return t;
     }
 
-    public T onReady(com.kaiserdavar.androidui.OnViewReadyListener<T> listener) {
+    public T onReady(OnViewReadyListener<T> listener) {
         view.post(() -> listener.onReady(t));
         return t;
     }
@@ -1131,7 +1165,7 @@ public abstract class BaseVue<T, M extends View> implements Vue {
         return t;
     }
 
-    public T action(long delay, OnObjectListener<T> listener) {
+    public T onDelay(long delay, OnObjectListener<T> listener) {
         if (delay > 0) {
             view.postDelayed(() -> listener.onObject(t), delay);
         } else {

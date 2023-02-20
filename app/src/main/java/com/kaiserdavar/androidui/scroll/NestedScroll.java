@@ -1,14 +1,17 @@
 package com.kaiserdavar.androidui.scroll;
 
 import android.content.Context;
+import android.os.Build;
 import android.view.View;
 
 import androidx.core.widget.NestedScrollView;
 
 import com.kaiserdavar.androidui.BaseVue;
+import com.kaiserdavar.androidui.OnShaperListener;
 import com.kaiserdavar.androidui.Vue;
+import com.kaiserdavar.androidui.util.Shaper;
 
-public class NestedScroll extends BaseVue<NestedScroll, NestedScrollView> {
+public class NestedScroll extends BaseScroll<NestedScroll, NestedScrollView> {
 
     public static NestedScroll create(Context context) {
         return new NestedScroll(context);
@@ -28,36 +31,52 @@ public class NestedScroll extends BaseVue<NestedScroll, NestedScrollView> {
         return v;
     }
 
-    public NestedScroll child(View child) {
-        view.removeAllViews();
-        view.addView(child);
-        return this;
-    }
 
-    public NestedScroll child(Vue child) {
-        view.removeAllViews();
-        view.addView(child.createView());
-        return this;
-    }
-
-    public NestedScroll clear() {
-        view.removeAllViews();
-        return this;
-    }
-
+    @Override
     public NestedScroll fill() {
         view.setFillViewport(true);
         return this;
     }
-
+    @Override
     public NestedScroll smoothScrolling(boolean enabled) {
         view.setSmoothScrollingEnabled(enabled);
         return this;
     }
-    public NestedScroll nestedScrolling(boolean enabled) {
-        view.setNestedScrollingEnabled(enabled);
+    @Override
+    public NestedScroll scroll(int value) {
+        view.setScrollY(value);
         return this;
     }
+    @Override
+    public NestedScroll showBar() {
+        view.setVerticalScrollBarEnabled(true);
+        return this;
+    }
+    @Override
+    public NestedScroll hideBar() {
+        view.setVerticalScrollBarEnabled(false);
+        return this;
+    }
+    @Override
+    public NestedScroll thumbShape(OnShaperListener listener) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            Shaper shaper = new Shaper(context());
+            listener.onShaper(shaper);
+            view.setVerticalScrollbarThumbDrawable(shaper.generate());
+        }
+        return this;
+    }
+    @Override
+    public NestedScroll trackShape(OnShaperListener listener) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            Shaper shaper = new Shaper(context());
+            listener.onShaper(shaper);
+            view.setVerticalScrollbarTrackDrawable(shaper.generate());
+        }
+        return this;
+    }
+
+
     public NestedScroll onScroll(NestedScrollView.OnScrollChangeListener listener) {
         view.setOnScrollChangeListener(listener);
         return this;

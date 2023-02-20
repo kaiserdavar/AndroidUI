@@ -8,10 +8,10 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.google.android.material.switchmaterial.SwitchMaterial;
 
-public class Switcher extends com.kaiserdavar.androidui.BaseVue<Switcher, SwitchMaterial>
+public class Switcher extends BaseVue<Switcher, SwitchMaterial>
         implements CompoundButton.OnCheckedChangeListener {
 
-    private com.kaiserdavar.androidui.OnToggleListener onToggleListener;
+    private OnToggleListener onToggleListener;
     private MutableLiveData<Boolean> toggleLiveData;
     private boolean isChanging;
 
@@ -52,7 +52,7 @@ public class Switcher extends com.kaiserdavar.androidui.BaseVue<Switcher, Switch
         return this;
     }
 
-    public Switcher onToggle(com.kaiserdavar.androidui.OnToggleListener listener) {
+    public Switcher onToggle(OnToggleListener listener) {
         this.onToggleListener = listener;
         return this;
     }

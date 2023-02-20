@@ -28,7 +28,7 @@ public abstract class BaseCStack<T, M extends ConstraintLayout> extends BaseStac
     @Override
     protected void onAddChild(Vue child) {
         View childView = child.view();
-        view.addView(childView, child.getConstraintLp());
+        view.addView(childView, child.constraintLp());
 
         Vue[] vues = null;
         if (child instanceof CStackFlow)

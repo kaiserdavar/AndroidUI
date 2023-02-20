@@ -3,9 +3,10 @@ package com.kaiserdavar.androidui;
 import android.content.Context;
 
 import com.kaiserdavar.androidui.style.TextStyle;
+import com.kaiserdavar.androidui.style.VueStyle;
 
 public class Button extends com.kaiserdavar.androidui.BaseText<Button, android.widget.Button> {
-    public static TextStyle defaultStyle;
+    public static VueStyle defaultStyle;
 
     public static Button create(Context context) {
         return new Button(context);

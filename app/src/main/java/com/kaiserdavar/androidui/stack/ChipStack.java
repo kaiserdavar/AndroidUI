@@ -30,7 +30,7 @@ public class ChipStack extends BaseStack<ChipStack, ChipGroup> {
 
     @Override
     protected void onAddChild(Vue child) {
-        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(child.getMarginLp());
+        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(child.marginLp());
         view.addView(child.view(), params);
     }
 

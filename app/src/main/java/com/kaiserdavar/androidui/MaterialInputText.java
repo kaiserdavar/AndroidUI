@@ -26,7 +26,7 @@ import com.kaiserdavar.androidui.util.NumberTextWatcher;
 import com.kaiserdavar.androidui.util.OnEditTextChangeListener;
 
 public class MaterialInputText extends BaseVue<MaterialInputText, TextInputLayout> {
-    public static TextStyle defaultStyle;
+    public static VueStyle defaultStyle;
 
     private TextInputEditText mEditText;
     private boolean isChanging;

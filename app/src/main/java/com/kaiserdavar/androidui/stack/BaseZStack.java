@@ -23,7 +23,7 @@ public abstract class BaseZStack<T, M extends FrameLayout> extends BaseStack<T, 
 
     @Override
     protected void onAddChild(Vue child) {
-        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(child.getMarginLp());
+        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(child.marginLp());
         params.gravity = child.getGravity() != -1 ? child.getGravity() : mGravity;
         view.addView(child.view(), params);
     }

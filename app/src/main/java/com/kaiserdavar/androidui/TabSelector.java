@@ -9,7 +9,7 @@ import androidx.core.content.ContextCompat;
 
 import com.google.android.material.tabs.TabLayout;
 
-public class TabSelector extends com.kaiserdavar.androidui.BaseVue<TabSelector, TabLayout> implements
+public class TabSelector extends BaseVue<TabSelector, TabLayout> implements
         TabLayout.OnTabSelectedListener {
 
     private OnTabListener onSelectListener;
@@ -36,32 +36,32 @@ public class TabSelector extends com.kaiserdavar.androidui.BaseVue<TabSelector, 
     }
 
     public TabSelector tab(CharSequence text) {
-        com.kaiserdavar.androidui.TabItem tab = com.kaiserdavar.androidui.TabItem.create(view.newTab()).text(text);
+        TabItem tab = TabItem.create(view.newTab()).text(text);
         view.addTab(tab.getView());
         return this;
     }
 
     public TabSelector tab(@StringRes int textRes) {
-        com.kaiserdavar.androidui.TabItem tab = com.kaiserdavar.androidui.TabItem.create(view.newTab()).text(textRes);
+        TabItem tab = TabItem.create(view.newTab()).text(textRes);
         view.addTab(tab.getView());
         return this;
     }
 
     public TabSelector tab(@StringRes int textRes, @DrawableRes int icon) {
-        com.kaiserdavar.androidui.TabItem tab = com.kaiserdavar.androidui.TabItem.create(view.newTab()).text(textRes).icon(icon);
+        TabItem tab = TabItem.create(view.newTab()).text(textRes).icon(icon);
         view.addTab(tab.getView());
         return this;
     }
 
-    public TabSelector tab(com.kaiserdavar.androidui.OnTabItemListener listener) {
-        com.kaiserdavar.androidui.TabItem tab = com.kaiserdavar.androidui.TabItem.create(view.newTab());
+    public TabSelector tab(OnTabItemListener listener) {
+        TabItem tab = TabItem.create(view.newTab());
         listener.onTab(tab);
         view.addTab(tab.getView());
         return this;
     }
 
-    public TabSelector tab(int position, boolean selected, com.kaiserdavar.androidui.OnTabItemListener listener) {
-        com.kaiserdavar.androidui.TabItem tab = com.kaiserdavar.androidui.TabItem.create(view.newTab());
+    public TabSelector tab(int position, boolean selected, OnTabItemListener listener) {
+        TabItem tab = TabItem.create(view.newTab());
         listener.onTab(tab);
         view.addTab(tab.getView(), position, selected);
         return this;

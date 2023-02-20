@@ -5,9 +5,10 @@ import android.content.Context;
 import androidx.appcompat.widget.AppCompatEditText;
 
 import com.kaiserdavar.androidui.style.TextStyle;
+import com.kaiserdavar.androidui.style.VueStyle;
 
 public class InputText extends com.kaiserdavar.androidui.BaseInputText<InputText, AppCompatEditText> {
-    public static TextStyle defaultStyle;
+    public static VueStyle defaultStyle;
 
     public static InputText create(Context context) {
         return new InputText(context);
